@@ -10,7 +10,7 @@ import { checkAdmin } from "../middlewares/admin.js";
 
 const router = express.Router();
 
-router.post("/generate", checkAdmin, generate);
+router.post("/generate", generate);
 router.post("/login", login);
 router.get("/total", totalAuth);
 router.get("/all", getAll);

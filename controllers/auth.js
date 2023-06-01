@@ -30,7 +30,21 @@ export const login = async (req, res) => {
 
   const isDeviceIdExist = await Auth.findOne({ code });
 
+  if (isDeviceIdExist && isDeviceIdExist.device_id == device_id) {
+    return res.status(200).json({ message: "login success", success: true });
+  }
+
+  if (!isDeviceIdExist) {
+    return res.status(400).json({ message: "invalid code", success: false });
+  }
+
   if (isDeviceIdExist.device_id !== null) {
+    return res
+      .status(404)
+      .json({ message: "User already exist", success: false });
+  }
+
+  if (isDeviceIdExist.device_id && isDeviceIdExist.device_id != device_id) {
     return res
       .status(404)
       .json({ message: "User already exist", success: false });
@@ -42,7 +56,7 @@ export const login = async (req, res) => {
     { new: true }
   );
 
-  return res.status(200).json({ info: authCode, success: true });
+  return res.status(200).json({ message: "login success", success: true });
 };
 
 export const totalAuth = async (req, res) => {
